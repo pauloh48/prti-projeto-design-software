@@ -102,6 +102,18 @@ Um **Sistema de Gestão de Estoque multiplataforma**, voltado para micro e peque
 
 ## 🧭 6. Arquitetura — Modelo C4
 
+### 🧩 Contexto (texto)
+
+| **Origem**                              | **Destino**                         | **Relação**                                                                   |
+| --------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------- |
+| **Pequeno Comerciante**                 | Sistema de Gestão de Estoque        | Cadastra produtos, consulta estoque e relatórios, e configura níveis mínimos. |
+| **Operador/Atendente**                  | Sistema de Gestão de Estoque        | Registra entradas e saídas de produtos; importa e exporta dados.              |
+| **Leitor/Câmera (Código de Barras/QR)** | Sistema de Gestão de Estoque        | Lê códigos para agilizar as movimentações de produtos.                        |
+| **Sistema de Gestão de Estoque**        | Serviço de Notificações             | Envia alertas automáticos sobre validade e estoque baixo.                     |
+| **Sistema de Gestão de Estoque**        | Provedor de Nuvem (DB/Storage)      | Persiste dados, armazena arquivos e realiza backups.                          |
+| **Sistema de Gestão de Estoque**        | Ferramentas Externas (Planilhas/BI) | Exporta relatórios (CSV, Excel, PDF) e importa planilhas para análises.       |
+
+
 ### 🧩 Diagrama de Contexto (PlantUML)
 
 ![c4 contexto](https://github.com/pauloh48/prti-projeto-design-software/blob/main/c4/c4_contexto.png)
