@@ -93,7 +93,7 @@ Um **Sistema de Gestão de Estoque multiplataforma**, voltado para micro e peque
 
 ### 📊 Modelo de Negócio — Sistema de Gestão de Estoque
 
-![alt text](https://github.com/pauloh48/prti-projeto-design-software/blob/main/bmc.png)
+![BMC](https://github.com/pauloh48/prti-projeto-design-software/blob/main/bmc.png)
 
 > 💡 **Resumo Estratégico:**  
 > O sistema visa democratizar o acesso à automação de estoque, oferecendo um produto simples, econômico e escalável, com potencial de expansão via planos pagos e integrações empresariais.
@@ -103,6 +103,9 @@ Um **Sistema de Gestão de Estoque multiplataforma**, voltado para micro e peque
 ## 🧭 6. Arquitetura — Modelo C4
 
 ### 🧩 Diagrama de Contexto (PlantUML)
+
+![c4 contexto](https://github.com/pauloh48/prti-projeto-design-software/blob/main/c4/c4_contexto.png)
+
 ```plantuml
 @startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
