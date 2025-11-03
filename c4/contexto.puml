@@ -1,0 +1,31 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+' Layout e estilos básicos (opcional)
+LAYOUT_LEFT_RIGHT()
+SHOW_PERSON_OUTLINE()
+
+' Pessoas
+Person(comerciante, "Pequeno Comerciante", "Cadastra produtos, registra movimentações, consulta relatórios e recebe alertas.")
+Person(operador, "Operador/Atendente", "Executa entradas/saídas e pode importar/exportar dados.")
+
+' Sistema (caixa central)
+System(sge, "Sistema de Gestão de Estoque", "Aplicação Web/Mobile com alertas (validade/estoque baixo), histórico e relatórios.")
+
+' Sistemas/Serviços Externos
+System_Ext(cloud, "Provedor de Nuvem (DB/Storage)", "Banco de dados, armazenamento de arquivos e backups.")
+System_Ext(notify, "Serviço de Notificações", "E-mail / SMS / Push para alertas.")
+System_Ext(sheets, "Ferramentas Externas (Planilhas/BI)", "CSV/Excel/PDF para importação/exportação e análises.")
+System_Ext(scanner, "Leitor/Câmera (Código de Barras/QR)", "Dispositivo/feature usado para leitura rápida.")
+
+' Relacionamentos (rotular com verbos claros)
+Rel(comerciante, sge, "Cadastra produtos, consulta estoque/relatórios, configura níveis mínimos")
+Rel(operador, sge, "Registra entradas/saídas; importa/exp. dados")
+Rel(scanner, sge, "Lê códigos para agilizar movimentações")
+Rel(sge, notify, "Envia alertas de validade e estoque baixo", "Assíncrono")
+Rel(sge, cloud, "Persiste dados e realiza backups")
+Rel(sge, sheets, "Exporta CSV/Excel/PDF; importa planilhas")
+
+' (Opcional) Legenda
+SHOW_LEGEND()
+@enduml
