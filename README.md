@@ -12,8 +12,9 @@
 - [2. Escopo do Sistema](#-2-escopo-do-sistema)
 - [3. Requisitos Funcionais](#-3-requisitos-funcionais)
 - [4. Requisitos Não Funcionais](#-4-requisitos-não-funcionais)
-- [5. Business Model Canvas (BMC)](#-5-business-model-canvas-bmc)
-- [6. Arquitetura — Modelo C4](#-6-arquitetura--modelo-c4)
+- [5. Histórias de Usuário](#-5-histórias-de-usuário)
+- [6. Business Model Canvas (BMC)](#-6-business-model-canvas-bmc)
+- [7. Arquitetura — Modelo C4](#-7-arquitetura--modelo-c4)
 
 ---
 
@@ -89,29 +90,68 @@ Um **Sistema de Gestão de Estoque multiplataforma**, voltado para micro e peque
 
 ---
 
-## 💼 5. Business Model Canvas (BMC)
+## 📝 5. Histórias de Usuário
+
+**HU1 — Cadastro detalhado de produtos**
+> **Como** comerciante, **quero** cadastrar produtos informando nome, validade e quantidade, **pois assim** mantenho o estoque organizado e evito vender itens vencidos.
+
+**HU2 — Controle de movimentações de estoque**
+> **Como** prestador de serviços, **quero** registrar entradas e saídas de produtos, **de modo que** eu consiga acompanhar o fluxo de mercadorias e identificar discrepâncias rapidamente.
+
+**HU3 — Alertas sobre a validade dos produtos**
+> **Como** empreendedor informal, **quero** receber alertas de produtos próximos do vencimento, **pois isso** me ajuda a realizar promoções antecipadas e reduzir perdas financeiras.
+
+**HU4 — Notificação automática de estoque baixo**
+> **Como** comerciante, **quero** receber notificações quando o estoque de um produto estiver baixo, **para que** eu faça o pedido de reposição antes de faltar para o cliente.
+
+**HU5 — Relatórios básicos de movimentação e finanças**
+> **Como** prestador de serviços, **quero** acessar relatórios de movimentação e finanças, **pois assim** consigo avaliar minhas vendas e planejar melhor o capital de giro.
+
+**HU6 — Acesso multiplataforma ao sistema**
+> **Como** empreendedor informal que se desloca entre loja e fornecedores, **quero** acessar o sistema pelo celular ou computador, **de modo que** eu possa gerenciar o estoque em qualquer lugar e tempo.
+
+**HU7 — Atualizar ou desativar produtos**
+> **Como** comerciante, **quero** atualizar as informações dos produtos já cadastrados (como nome, validade e quantidade) ou desativá-los quando não estiverem mais disponíveis, **para** manter o estoque sempre correto e evitar erros na venda de itens indisponíveis ou desatualizados.
+
+**HU8 — Configurar o nível mínimo de estoque**
+> **Como** comerciante, **quero** definir o nível mínimo de cada produto em estoque, **para que** o sistema consiga emitir alertas de reposição automaticamente e eu não perca vendas por falta de mercadorias.
+
+**HU9 — Gerenciar dados do usuário**
+> **Como** prestador de serviços, **quero** atualizar minhas informações de cadastro (como nome, e-mail e senha), **para** manter meus dados seguros e garantir acesso contínuo ao sistema.
+
+**HU10 — Consultar histórico de movimentações**
+> **Como** comerciante, **quero** ver o histórico filtrável de entradas/saídas por produto/período/usuário, **para** auditoria e solução de discrepâncias.
+
+**HU11 — Leitura de código de barras/QR**
+> **Como** comerciante, **quero** dar entrada/saída usando leitor/câmera, **para** agilizar o processo e reduzir erros.
+
+**HU12 — Exportar e importar dados do estoque**
+> **Como** prestador de serviços, **quero** exportar relatórios (PDF/Excel) e importar planilhas (CSV), **para** análise externa e carga inicial rápida.
+
+---
+
+## 💼 6. Business Model Canvas (BMC)
 
 ### 📊 Modelo de Negócio — Sistema de Gestão de Estoque
 
 ![BMC](https://github.com/pauloh48/prti-projeto-design-software/blob/main/bmc.png)
 
-> 💡 **Resumo Estratégico:**  
-> O sistema visa democratizar o acesso à automação de estoque, oferecendo um produto simples, econômico e escalável, com potencial de expansão via planos pagos e integrações empresariais.
+> 💡 **Resumo Estratégico:** > O sistema visa democratizar o acesso à automação de estoque, oferecendo um produto simples, econômico e escalável, com potencial de expansão via planos pagos e integrações empresariais.
 
 ---
 
-## 🧭 6. Arquitetura — Modelo C4
+## 🧭 7. Arquitetura — Modelo C4
 
 ### 🧩 Contexto (texto)
 
-| **Origem**                              | **Destino**                         | **Relação**                                                                   |
+| **Origem** | **Destino** | **Relação** |
 | --------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------- |
-| **Pequeno Comerciante**                 | Sistema de Gestão de Estoque        | Cadastra produtos, consulta estoque e relatórios, e configura níveis mínimos. |
-| **Operador/Atendente**                  | Sistema de Gestão de Estoque        | Registra entradas e saídas de produtos; importa e exporta dados.              |
+| **Pequeno Comerciante** | Sistema de Gestão de Estoque        | Cadastra produtos, consulta estoque e relatórios, e configura níveis mínimos. |
+| **Operador/Atendente** | Sistema de Gestão de Estoque        | Registra entradas e saídas de produtos; importa e exporta dados.              |
 | **Leitor/Câmera (Código de Barras/QR)** | Sistema de Gestão de Estoque        | Lê códigos para agilizar as movimentações de produtos.                        |
-| **Sistema de Gestão de Estoque**        | Serviço de Notificações             | Envia alertas automáticos sobre validade e estoque baixo.                     |
-| **Sistema de Gestão de Estoque**        | Provedor de Nuvem (DB/Storage)      | Persiste dados, armazena arquivos e realiza backups.                          |
-| **Sistema de Gestão de Estoque**        | Ferramentas Externas (Planilhas/BI) | Exporta relatórios (CSV, Excel, PDF) e importa planilhas para análises.       |
+| **Sistema de Gestão de Estoque** | Serviço de Notificações             | Envia alertas automáticos sobre validade e estoque baixo.                     |
+| **Sistema de Gestão de Estoque** | Provedor de Nuvem (DB/Storage)      | Persiste dados, armazena arquivos e realiza backups.                          |
+| **Sistema de Gestão de Estoque** | Ferramentas Externas (Planilhas/BI) | Exporta relatórios (CSV, Excel, PDF) e importa planilhas para análises.       |
 
 
 ### 🧩 Diagrama de Contexto (PlantUML)
@@ -120,7 +160,7 @@ Um **Sistema de Gestão de Estoque multiplataforma**, voltado para micro e peque
 
 ```plantuml
 @startuml
-!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!includeurl [https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml](https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml)
 
 ' Layout e estilos básicos (opcional)
 LAYOUT_LEFT_RIGHT()
@@ -150,4 +190,3 @@ Rel(sge, sheets, "Exporta CSV/Excel/PDF; importa planilhas")
 ' (Opcional) Legenda
 SHOW_LEGEND()
 @enduml
-
