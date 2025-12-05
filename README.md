@@ -190,3 +190,117 @@ Rel(sge, sheets, "Exporta CSV/Excel/PDF; importa planilhas")
 ' (Opcional) Legenda
 SHOW_LEGEND()
 @enduml
+```
+
+### 🧩 Diagrama de Container (PlantUML)
+<img width="1348" height="779" alt="diagram-export-04-12-2025-20_34_22" src="https://github.com/user-attachments/assets/2ceebffe-ce57-4366-bcd2-d303729e4264" />
+
+```plantuml
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+LAYOUT_TOP_DOWN()
+SHOW_PERSON_OUTLINE()
+
+' ======================================================
+' PERSONAS
+' ======================================================
+Person(comerciante, "Pequeno Comerciante", "Usa Web e Mobile para gerenciar estoque.")
+Person(operador, "Operador/Atendente", "Registra entradas/saídas e gera relatórios.")
+
+' ======================================================
+' SISTEMA E CONTAINERS
+' ======================================================
+System_Boundary(sge, "SGE - Sistema de Gestão de Estoque") {
+
+    Container(webapp, "Web App", "Angular / React",
+        "Interface web para cadastro de produtos, movimentações, histórico e relatórios.")
+
+    Container(mobile, "Mobile App", "Flutter / React Native",
+        "App móvel para consulta rápida, alertas e leitura de código de barras.")
+
+    Container(api, "API Backend", "Java • Spring Boot",
+        "Regras de negócio: produtos, movimentações, alertas, relatórios, exportações.
+         Expõe APIs REST e integra com auth, storage, banco e serviço de notificações.")
+
+    Container(auth, "Auth Service", "Spring Security • JWT / OAuth2",
+        "Autenticação e autorização. Emite e valida tokens JWT.")
+
+    ContainerDb(db, "Database", "PostgreSQL",
+        "Armazena produtos, usuários, alertas e movimentações.
+         Dono: API Backend.")
+
+    Container(storage, "File Storage", "S3 / Cloud Storage",
+        "Armazena arquivos exportados (CSV, Excel, PDF) e backups.")
+}
+
+' ======================================================
+' SISTEMAS EXTERNOS
+' ======================================================
+System_Ext(notify, "Serviço de Notificações", "E-mail / Push / SMS")
+System_Ext(scanner, "Leitor de Código de Barras", "Camera/Device Scanner")
+
+' ======================================================
+' RELACIONAMENTOS
+' ======================================================
+
+' Usuários
+Rel(comerciante, webapp, "Usa (HTTPS)")
+Rel(operador, webapp, "Usa (HTTPS)")
+Rel(comerciante, mobile, "Usa (HTTPS)")
+Rel(operador, mobile, "Usa (HTTPS)")
+
+' Apps → API
+Rel(webapp, api, "CRUD, relatórios, alertas", "REST/JSON, HTTPS, síncrono + JWT")
+Rel(mobile, api, "Movimentações, scanner, alertas", "REST/JSON, HTTPS, síncrono + JWT")
+
+' Autenticação
+Rel(webapp, auth, "Login e Refresh Token", "HTTPS, síncrono")
+Rel(mobile, auth, "Login e Refresh Token", "HTTPS, síncrono")
+Rel(api, auth, "Validação de token JWT", "Local decode / introspection")
+
+' API Interno
+Rel(api, db, "Queries / Updates", "JDBC / JPA, síncrono")
+Rel(api, storage, "Upload/Download de arquivos", "HTTPS, assíncrono")
+Rel(api, notify, "Envio de alertas", "Webhook/SMTP/Push, assíncrono")
+
+' Scanner
+Rel(scanner, mobile, "Lê código e envia ao app", "Local API / Hardware Access")
+
+' ======================================================
+' CENÁRIOS CRÍTICOS VISUAIS (ANOTAÇÕES)
+' ======================================================
+
+' --------- Cenário Feliz
+AddNote(webapp, api, 
+"CENÁRIO FELIZ\n\nCadastro de Movimentação:\n1. WebApp → API\n2. API → DB\n3. Resposta rápida (<3s).",
+"yellow")
+
+AddNote(api, db,
+"CENÁRIO FELIZ\nPersistência OK\nRollback em caso de falha.",
+"yellow")
+
+' --------- Cenário de Pico
+AddNote(api, notify,
+"CENÁRIO DE PICO\nEnvio massivo de alertas.\nProcesso assíncrono para evitar travar o usuário.",
+"orange")
+
+' --------- Cenário de Falha
+AddNote(api, db,
+"CENÁRIO DE FALHA\nDB indisponível.\nAPI retorna 503 e aciona alertas internos.",
+"red")
+
+' ======================================================
+' LEGENDA DE CENÁRIOS
+' ======================================================
+legend right
+<b>Cenários Críticos</b>
+
+<color:yellow>●</color> Cenário Feliz – Cadastro de movimentações  
+<color:orange>●</color> Cenário de Pico – Envio massivo de alertas  
+<color:red>●</color> Cenário de Falha – DB indisponível  
+endlegend
+
+SHOW_LEGEND()
+@enduml
+```
+
