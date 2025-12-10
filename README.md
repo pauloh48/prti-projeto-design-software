@@ -10,8 +10,8 @@
 
 - [1. Visão Geral](#-1-visão-geral)
 - [2. Escopo do Sistema](#-2-escopo-do-sistema)
-- [3. Requisitos Funcionais](#-3-requisitos-funcionais)
-- [4. Requisitos Não Funcionais](#-4-requisitos-não-funcionais)
+- [3. Requisitos Não Funcionais](#-3-requisitos-não-funcionais)
+- [4. Requisitos Funcionais](#-4-requisitos-funcionais)
 - [5. Histórias de Usuário](#-5-histórias-de-usuário)
 - [6. Business Model Canvas (BMC)](#-6-business-model-canvas-bmc)
 - [7. Arquitetura — Modelo C4](#-7-arquitetura--modelo-c4)
@@ -54,7 +54,23 @@ Um **Sistema de Gestão de Estoque multiplataforma**, voltado para micro e peque
 
 ---
 
-## ⚙️ 3. Requisitos Funcionais
+## 🧱 3. Requisitos Não Funcionais
+
+| Categoria | Descrição |
+|------------|------------|
+| **Usabilidade** | Interface intuitiva e amigável. |
+| **Disponibilidade** | 24/7 com redundância em nuvem. |
+| **Segurança** | Criptografia de dados e autenticação segura. |
+| **Desempenho** | Resposta < 3s nas operações comuns. |
+| **Escalabilidade** | Suporte ao crescimento gradual do negócio. |
+| **Compatibilidade** | Suporte a navegadores modernos e dispositivos móveis. |
+| **Portabilidade** | Arquitetura web modular (frontend, backend, DB em nuvem). |
+| **Manutenibilidade** | Código limpo, modular e documentado. |
+| **Confiabilidade** | Backups automáticos e restauração garantida. |
+| **Acessibilidade** | Conformidade com padrões W3C e layout responsivo. |
+---
+
+## ⚙️ 4. Requisitos Funcionais
 
 | Código | Descrição | Justificativa |
 |--------|------------|----------------|
@@ -70,23 +86,6 @@ Um **Sistema de Gestão de Estoque multiplataforma**, voltado para micro e peque
 | **HU10** | Consultar histórico filtrável de movimentações. | Auditoria e análise. |
 | **HU11** | Leitura de código de barras/QR. | Agilidade e redução de erros. |
 | **HU12** | Importar/exportar dados (CSV, Excel, PDF). | Integração externa e backup manual. |
-
----
-
-## 🧱 4. Requisitos Não Funcionais
-
-| Categoria | Descrição |
-|------------|------------|
-| **Usabilidade** | Interface intuitiva e amigável. |
-| **Disponibilidade** | 24/7 com redundância em nuvem. |
-| **Segurança** | Criptografia de dados e autenticação segura. |
-| **Desempenho** | Resposta < 3s nas operações comuns. |
-| **Escalabilidade** | Suporte ao crescimento gradual do negócio. |
-| **Compatibilidade** | Suporte a navegadores modernos e dispositivos móveis. |
-| **Portabilidade** | Arquitetura web modular (frontend, backend, DB em nuvem). |
-| **Manutenibilidade** | Código limpo, modular e documentado. |
-| **Confiabilidade** | Backups automáticos e restauração garantida. |
-| **Acessibilidade** | Conformidade com padrões W3C e layout responsivo. |
 
 ---
 
@@ -457,3 +456,14 @@ mobLogin -[hidden]- mobMov
 
 @enduml
 ```
+
+## Autoria e Créditos:
+
++ Documentação criada com carinho e dedicação por:
+
+- [Júlio César Freitas](https://github.com/juliofreitasbm)  
+- [Aylla Christinne Feitosa](https://github.com/AyllaChristinne)  
+- [Fernanda Cordeiro](https://github.com/fernandevcordeiro?tab=repositories)  
+- [Lucas Lacerda](https://github.com/poxalukas)  
+- [Bruno Ataídes](https://github.com/brunofrra)  
+- [Paulo Henrique](https://github.com/pauloh48)
