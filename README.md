@@ -303,3 +303,13 @@ SHOW_LEGEND()
 @enduml
 ```
 
+## Autoria e Créditos:
+
++ Documentação criada com carinho e dedicação por:
+
+- [Júlio César Freitas](https://github.com/juliofreitasbm)  
+- [Aylla Christinne Feitosa](https://github.com/AyllaChristinne)  
+- [Fernanda Cordeiro](https://github.com/fernandevcordeiro?tab=repositories)  
+- [Lucas Lacerda](https://github.com/poxalukas)  
+- [Bruno Ataídes](https://github.com/brunofrra)  
+- [Paulo Henrique](https://github.com/pauloh48)
