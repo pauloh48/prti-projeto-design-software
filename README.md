@@ -303,6 +303,160 @@ SHOW_LEGEND()
 @enduml
 ```
 
+### 🧩 Diagrama de Componentes (PlantUML)
+![c4 componentes](https://github.com/pauloh48/prti-projeto-design-software/blob/main/c4/c4_componentes.png)
+
+```plantuml
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+LAYOUT_WITH_LEGEND()
+LAYOUT_TOP_DOWN()
+' skinparam linetype ortho
+
+Person(pc, "Pequeno Comerciante", "Usa o sistema via Web ou Mobile")
+Person(oper, "Operador/Atendente", "Opera o sistema no dia a dia")
+System_Ext(barcode, "Leitor de Código de Barras", "Envia códigos lidos")
+System_Ext(notifSvc, "Serviço de Notificações", "Email/Push/etc.")
+
+System_Boundary(sge, "SGE - Sistema de Gestão de Estoque") {
+
+  ' ---------------- WEB APP ----------------
+  Container_Boundary(web, "Web App (React)") {
+    Component(webLogin, "Login & Session Manager", "React", "Gerencia autenticação e tokens JWT/Refresh")
+    Component(webDash, "Inventory Dashboard", "React", "Visão geral do estoque e indicadores")
+    Component(webMov, "Movimentações UI", "React", "Cadastro/edição de movimentações")
+    Component(webRep, "Relatórios UI", "React", "Consulta e download de relatórios")
+    Component(webAlerts, "Alerts Panel", "React", "Exibição de alertas gerados pelo backend")
+  }
+
+  ' ---------------- MOBILE APP ----------------
+  Container_Boundary(mobile, "Mobile App") {
+    Component(mobLogin, "Login & Token Manager", "Mobile", "Autenticação e renovação de tokens")
+    Component(mobScan, "Scanner Module", "Mobile", "Leitura de código de barras")
+    Component(mobMov, "Movimentações Mobile", "Mobile", "Registro rápido de movimentações")
+    Component(mobAlerts, "Push Alerts Handler", "Mobile", "Recebe e exibe alertas")
+  }
+
+' ------------------- API BACKEND (modular + SOLID) -------------------
+Container_Boundary(api, "API Backend (Java/Spring)") {
+
+  ' ---------------- AUTH GATEWAY ----------------
+  Container_Boundary(apiAuth, "Auth Gateway Module") {
+    Component(apiAuthGw, "Auth Gateway", "Spring Filter", "Valida tokens e integra com Auth Service")
+  }
+
+  ' ---------------- INVENTORY MODULE ----------------
+  Container_Boundary(apiInvMod, "Inventory Module") {
+    Component(apiInv, "Inventory Core", "Spring Service", "Regras do estoque")
+  }
+
+  ' ---------------- MOVIMENTAÇÕES MODULE ----------------
+  Container_Boundary(apiMovMod, "Movimentações Module") {
+    Component(apiMov, "Movimentações Core", "Spring Service", "Processamento e regras de movimentações")
+  }
+
+  ' ---------------- ALERTS MODULE ----------------
+  Container_Boundary(apiAlerts, "Alerts Module") {
+    Component(apiAlertsCore, "Alerts Engine", "Spring Service", "Detecta condições críticas e emite alertas")
+    Component(apiNotifPort, "NotificationPort", "Interface", "Porta de alto nível para envio de alertas")
+    Component(apiNotifContract, "NotificationContract", "Contract", "Contratos para múltiplas implementações")
+  }
+
+  ' ---------------- REPORTS MODULE (com DIP/LSP simplificado) ----------------
+  Container_Boundary(apiReports, "Reports Module") {
+    Component(apiReportsCore, "Reports Core", "Spring Service", "Montagem e geração de relatórios")
+    Component(apiReportPort, "ReportExportPort", "Interface", "Porta abstrata para exportação de relatórios (PDF, Excel...)")
+    Component(apiReportContract, "ReportExportContract", "Contract", "Define comportamento das exportações")
+  }
+
+  ' ---------------- FILE STORAGE MODULE ----------------
+  Container_Boundary(apiFiles, "File Storage Module") {
+    Component(apiFilesCore, "File Service", "Spring Service", "Upload/Download de arquivos")
+    Component(apiStoragePort, "FileStoragePort", "Interface", "Porta de alto nível para acesso a storage")
+  }
+
+  ' ---------------- PERSISTENCE ----------------
+  Container_Boundary(apiRepoMod, "Persistence Module") {
+    Component(apiRepo, "Persistence Layer", "Spring Data/JPA", "Repositórios e acesso ao banco")
+  }
+}
+
+  ' ---------------- AUTH SERVICE ----------------
+  Container_Boundary(auth, "Auth Service") {
+    Component(authCtrl, "Auth Controller", "REST API", "Ponto de entrada para login")
+    Component(authJwt, "JWT Generator", "Lib JWT", "Geração de tokens JWT e refresh")
+    Component(authVal, "Token Validator", "Lib JWT", "Validação de tokens, expiração e claims")
+    Component(authRepo, "Users Repository", "DAO/ORM", "Consulta e persistência de usuários e perfis")
+  }
+
+' ---------------- DATABASE & FILE STORAGE ----------------
+ContainerDb(db, "Database", "PostgreSQL")
+Container(files, "File Storage", "Object Storage (S3)")
+}
+
+' ---------------- RELACIONAMENTOS ----------------
+
+Rel(pc, webLogin, "usa")
+Rel(pc, mobLogin, "usa")
+Rel(oper, webLogin, "usa")
+Rel(oper, mobLogin, "usa")
+
+Rel(barcode, mobScan, "envia código")
+
+Rel(webLogin, apiAuthGw, "autentica")
+Rel(webDash, apiInv, "consulta estoque")
+Rel(webMov, apiMov, "CRUD movimentações")
+Rel(webAlerts, apiAlertsCore, "consulta alertas")
+Rel(webRep, apiReportsCore, "solicita relatórios")
+
+Rel(mobLogin, apiAuthGw, "autentica")
+Rel(mobMov, apiMov, "movimentações")
+Rel(mobScan, mobMov, "gera movimentações")
+Rel(mobAlerts, apiAlertsCore, "consulta alertas")
+
+' Alerts
+Rel(apiInv, apiAlertsCore, "gera eventos para análise")
+Rel(apiMov, apiAlertsCore, "gera eventos para análise")
+Rel(apiAlertsCore, apiNotifPort, "envia")
+Rel(apiNotifPort, apiNotifContract, "implementa")
+Rel(apiNotifPort, notifSvc, "envia alerta")
+
+
+' Reports
+Rel(apiReportsCore, apiRepo, "consulta dados")
+Rel(apiReportsCore, apiReportPort, "usa exportação")
+Rel(apiReportPort, apiReportContract, "cumpre")
+Rel(apiReportsCore, apiFilesCore, "usa storage")
+Rel(apiStoragePort, files, "upload/download")
+
+' File Storage
+Rel(apiFilesCore, apiStoragePort, "usa")
+
+' Auth
+Rel(apiAuthGw, authCtrl, "valida credenciais")
+Rel(authRepo, db, "queries usuários")
+Rel(authCtrl, authJwt, "solicita geração de token")
+Rel(authCtrl, authVal, "consulta usuário/senha")
+Rel(authVal, authRepo, "opcional: consulta dados adicionais do usuário")
+
+
+' Persistence
+Rel(apiInv, apiRepo, "consulta/atualiza dados")
+Rel(apiMov, apiRepo, "consulta/atualiza movimentações")
+Rel(apiRepo, db, "queries")
+
+webLogin -[hidden]- webAlerts
+webLogin -[hidden]- webDash
+webLogin -[hidden]- webMov
+webLogin -[hidden]- webRep
+
+mobLogin -[hidden]- mobAlerts 
+mobLogin -[hidden]- mobScan 
+mobLogin -[hidden]- mobMov 
+
+@enduml
+```
+
 ## Autoria e Créditos:
 
 + Documentação criada com carinho e dedicação por:
